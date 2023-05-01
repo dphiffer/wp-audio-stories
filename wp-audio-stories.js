@@ -92,6 +92,7 @@ var audio_stories_init = (function() {
 					if (story_play) {
 						story.classList.remove('hidden');
 						story_play.innerHTML = pause_label;
+						story_play.classList.add('story__play--paused');
 						update_sequence();
 						update_time();
 					}
@@ -100,6 +101,7 @@ var audio_stories_init = (function() {
 					btn.value = play_label;
 					if (story_play) {
 						story_play.innerHTML = play_label;
+						story_play.classList.remove('story__play--paused');
 					}
 				}
 			});
@@ -189,6 +191,15 @@ var audio_stories_init = (function() {
 			var sound = soundManager.sounds[id];
 			sound.setPosition(sound.position += 10 * 1000);
 		});
+
+		for (let el of [story_close, story_rewind, story_play, story_forward]) {
+			el.addEventListener('touchstart', e => {
+				e.target.classList.add('touch');
+			});
+			el.addEventListener('touchend', e => {
+				e.target.classList.remove('touch');
+			});
+		}
 
 		sequence = [];
 		var html = '';

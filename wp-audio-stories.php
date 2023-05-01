@@ -63,7 +63,7 @@ function audio_stories_enqueue_assets() {
 
 	$css_src = "{$base_url}wp-audio-stories.css";
 	$css_version = filemtime("$base_path/wp-audio-stories.css");
-	wp_enqueue_style('audio_stories', $css_src, [], $css_version);
+	wp_enqueue_style('audio_stories', $css_src, ['dashicons'], $css_version);
 }
 
 add_action('wp_enqueue_scripts', function() {
@@ -101,9 +101,9 @@ function audio_stories_render($block) {
 			</div>
 			<div class="story__controls">
 				<div class="story__wrapper">
-					<div class="story__rewind">Rewind 10 sec</div>
+					<div class="story__rewind">10 sec</div>
 					<div class="story__play"><?php the_field('loading_label'); ?></div>
-					<div class="story__forward">Forward 10 sec</div>
+					<div class="story__forward">10 sec</div>
 				</div>
 			</div>
 		</div>
