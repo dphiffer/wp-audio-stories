@@ -26,7 +26,7 @@ add_action('init', function() {
 	} else {
 		add_action('acf/init', function() {
 			acf_register_block_type([
-				'name' => 'wp-audio-stories/audio-story',
+				'name' => 'audio-story',
 				'title' => 'Audio Story',
 				'category' => 'media',
 				'icon' => 'dashicons-media',
