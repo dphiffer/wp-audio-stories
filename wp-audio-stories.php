@@ -24,8 +24,8 @@ add_action('init', function() {
 	if ($wp_version >= '5.6') {
 		register_block_type(__DIR__);
 	} else {
-		register_block_type("wp-audio-stories/audio-story", [
-			'api_version' => 2,
+		acf_register_block_type([
+			'name' => 'wp-audio-stories/audio-story',
 			'title' => 'Audio Story',
 			'category' => 'media',
 			'icon' => 'dashicons-media',
