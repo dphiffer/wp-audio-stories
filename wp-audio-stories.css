@@ -103,7 +103,7 @@ body.admin-bar .audio-story .story__sequence {
 .audio-story .story__rewind,
 .audio-story .story__play,
 .audio-story .story__forward {
-	width: 25%;
+	width: 33%;
 	background: #ededed;
 	padding: 20px;
 	text-align: center;
@@ -113,7 +113,6 @@ body.admin-bar .audio-story .story__sequence {
 
 .audio-story .story__play {
 	font-weight: bold;
-	width: 50%;
 }
 
 @media (hover) {

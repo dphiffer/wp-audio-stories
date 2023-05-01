@@ -101,9 +101,9 @@ function audio_stories_render($block) {
 			</div>
 			<div class="story__controls">
 				<div class="story__wrapper">
-					<div class="story__rewind">Rewind 10s</div>
+					<div class="story__rewind">Rewind 10 sec</div>
 					<div class="story__play"><?php the_field('loading_label'); ?></div>
-					<div class="story__forward">Forward 10s</div>
+					<div class="story__forward">Forward 10 sec</div>
 				</div>
 			</div>
 		</div>
