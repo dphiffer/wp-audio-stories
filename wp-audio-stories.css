@@ -1,0 +1,124 @@
+html {
+	scroll-behavior: smooth;
+}
+
+.audio-story,
+.audio-story * {
+	box-sizing: border-box;
+}
+
+.audio-story .story.hidden {
+	display: none;
+}
+
+.audio-story .story {
+	color: #000;
+	background: #fff;
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
+
+body.admin-bar .audio-story .story {
+	top: 32px;
+}
+
+.audio-story .story__wrapper {
+	position: relative;
+	width: 100%;
+	max-width: 640px;
+	margin: 0 auto;
+}
+
+.audio-story .story__close {
+	font-size: 30px;
+	line-height: 0;
+	position: absolute;
+	top: 0;
+	right: 0;
+	background: #dedede;
+	padding: 20px 10px;
+	font-family: arial;
+	cursor: pointer;
+	transition: 0.2s background-color ease-out;
+}
+
+.audio-story .story__text {
+	display: none;
+}
+
+.audio-story .story__controls {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+}
+
+.audio-story .story__controls .story__wrapper {
+	display: flex;
+	gap: 1px;
+}
+
+.audio-story .story__time {
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: inline-block;
+	padding: 10px 20px;
+	background: rgba(255, 255, 255, 0.9);
+}
+
+.audio-story .story__sequence {
+	overflow: auto;
+	width: 100%;
+	height: calc(100vh - 68px);
+	padding-top: 60px;
+}
+
+body.admin-bar .audio-story .story__sequence {
+	height: calc(100vh - 100px);
+}
+
+.audio-story .story__moment {
+	color: #aaa;
+	font-size: 24px;
+	line-height: 30px;
+	font-family: arial;
+	padding: 10px 20px;
+	transition: 0.5s opacity ease-out;
+}
+
+.audio-story .story__moment--current {
+	color: #000;
+	background-color: #ffc;
+}
+
+.audio-story .story__moment.hidden {
+	display: none;
+	opacity: 0;
+}
+
+.audio-story .story__rewind,
+.audio-story .story__play,
+.audio-story .story__forward {
+	width: 25%;
+	background: #ededed;
+	padding: 20px;
+	text-align: center;
+	cursor: pointer;
+	transition: 0.2s background-color ease-out;
+}
+
+.audio-story .story__play {
+	width: 50%;
+}
+
+@media (hover) {
+	.audio-story .story__close:hover,
+	.audio-story .story__rewind:hover,
+	.audio-story .story__play:hover,
+	.audio-story .story__forward:hover {
+		background: #ccc;
+	}
+}

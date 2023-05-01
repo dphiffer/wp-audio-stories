@@ -7,8 +7,8 @@
     "icon": "dashicons-media",
     "description": "Audio synchronized with text and images",
     "keywords": [ "audio", "stories" ],
-    "version": "0.0.1",
-    "textdomain": "wp-audio-stories",
+    "version": "0.0.2",
+    "style": [ "file:./wp-audio-stories.css", "audio-stories-style" ],
     "acf": {
         "renderCallback": "audio_stories_render"
     }

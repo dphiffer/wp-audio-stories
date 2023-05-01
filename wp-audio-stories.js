@@ -1,10 +1,18 @@
 var audio_stories_init = (function() {
 
+	var playing = false;
 	var sm2_is_setup = false;
 	var sm2_is_ready = false;
 	var play_when_ready = null;
+	var form, id, url, btn;
+	var play_label, loading_label, pause_label;
+	var story, story_play, sequence, story_moments;
 
 	function api_call(endpoint, params, callback) {
+		if (typeof audio_stories_api == 'undefined') {
+			return;
+		}
+
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function() {
 			var DONE = this.DONE || 4;
@@ -34,16 +42,66 @@ var audio_stories_init = (function() {
 		xhr.send(data);
 	}
 
-	var sounds = {};
+	function update_sequence() {
+		var current = null;
+		for (let i = 0; i < sequence.length; i++) {
+			let time = sequence[i] * 1000;
+			if (soundManager.sounds[id].position >= time) {
+				current = story_moments[i];
+				story_moments[i].classList.remove('hidden');
+			}
+		}
+		let curr_moment = story.querySelector('.story__moment--current');
+		if (curr_moment) {
+			curr_moment.classList.remove('story__moment--current');
+		}
+		if (current) {
+			current.classList.add('story__moment--current');
+			if (current.scrollIntoView) {
+				current.scrollIntoView(false);
+			}
+		}
+	}
+
+	function update_time() {
+		var ms = soundManager.sounds[id].position;
+		var mm = Math.floor(ms / 60000);
+		var ss = parseInt((ms - mm * 60000) / 1000);
+		if (mm < 10) {
+			mm = `0${mm}`;
+		}
+		if (ss < 10) {
+			ss = `0${ss}`;
+		}
+		story.querySelector('.story__time').innerHTML = `${mm}:${ss}`;
+	}
+
 	function play(id, url) {
 		if (! sm2_is_ready) {
 			play_when_ready = url;
 			return;
 		}
-		if (! sounds[id]) {
-			sounds[id] = soundManager.createSound({
+		if (! soundManager.sounds[id]) {
+			soundManager.createSound({
+				id: id,
 				url: url,
-				autoLoad: true
+				autoLoad: true,
+				autoPlay: true,
+				whileplaying: function(position) {
+					btn.value = pause_label;
+					if (story_play) {
+						story.classList.remove('hidden');
+						story_play.innerHTML = pause_label;
+						update_sequence();
+						update_time();
+					}
+				},
+				onpause: function() {
+					btn.value = play_label;
+					if (story_play) {
+						story_play.innerHTML = play_label;
+					}
+				}
 			});
 			api_call('play', {
 				id: id,
@@ -51,15 +109,17 @@ var audio_stories_init = (function() {
 				ajax: 1
 			}, function(rsp) {
 				if (rsp && rsp.play_id) {
-					sounds[id].play_id = rsp.play_id;
+					soundManager.sounds[id].play_id = rsp.play_id;
 				}
 			});
+			btn.value = loading_label;
+		} else {
+			soundManager.sounds[id].play();
 		}
-		sounds[id].play();
 	}
 
 	function pause(id) {
-		sounds[id].pause();
+		soundManager.sounds[id].pause();
 	}
 
 	function setup(form) {
@@ -72,7 +132,7 @@ var audio_stories_init = (function() {
 			onready: function() {
 				sm2_is_ready = true;
 				if (play_when_ready) {
-					play(play_when_ready);
+					play(id, play_when_ready);
 				}
 			}
 		});
@@ -80,9 +140,75 @@ var audio_stories_init = (function() {
 
 	function track_playback(id) {
 		api_call('track', {
-			play_id: sounds[id].play_id,
-			seconds: Math.round(sounds[id].position / 1000)
+			play_id: soundManager.sounds[id].play_id,
+			seconds: Math.round(soundManager.sounds[id].position / 1000)
 		});
+	}
+
+	function toggle() {
+		playing = ! playing;
+		if (playing) {
+			play(id, url);
+			interval = setInterval(function() {
+				track_playback(id, url);
+			}, 5000);
+		} else {
+			pause(id);
+			clearInterval(interval);
+		}
+	}
+
+	function setup_story() {
+		var story_text = story.querySelector('.story__text').innerHTML;
+		if (story_text.trim() == '') {
+			return;
+		}
+
+		var story_close = story.querySelector('.story__close');
+		story_play = story.querySelector('.story__play');
+		var story_rewind = story.querySelector('.story__rewind');
+		var story_forward = story.querySelector('.story__forward');
+		var story_sequence = story.querySelector('.story__sequence');
+
+		story_close.addEventListener('click', () => {
+			playing = true; // toggle() will reverse this
+			toggle();
+			story.classList.add('hidden');
+		});
+
+		story_play.addEventListener('click', () => {
+			toggle();
+		});
+
+		story_rewind.addEventListener('click', () => {
+			var sound = soundManager.sounds[id];
+			sound.setPosition(Math.max(0, sound.position -= 10 * 1000));
+		});
+
+		story_forward.addEventListener('click', () => {
+			var sound = soundManager.sounds[id];
+			sound.setPosition(sound.position += 10 * 1000);
+		});
+
+		sequence = [];
+		var html = '';
+		var texts = story_text.split('\n');
+		for (let text of texts) {
+			text = text.trim();
+			let regex = /^\[(\d\d):(\d\d.\d\d\d)\]/;
+			let timestamp = text.match(regex);
+			let time = '';
+			if (timestamp) {
+				let min = parseInt(timestamp[1]);
+				let sec = parseFloat(timestamp[2]);
+				time = min * 60 + sec;
+				text = text.replace(regex, '');
+				sequence.push(time);
+			}
+			html += `<div class="story__moment hidden">${text}</div>`;
+		}
+		story_sequence.innerHTML = html;
+		story_moments = story_sequence.querySelectorAll('.story__moment');
 	}
 
 	function setup_stats(rsp) {
@@ -130,37 +256,29 @@ var audio_stories_init = (function() {
 
 	return function init(form_id) {
 
-		var form = document.getElementById(form_id);
+		form = document.getElementById(form_id);
 		form.style.paddingBottom = '15px';
 
-		var id = form.querySelector('input[name="id"]').value;
-		var url = form.querySelector('input[name="audio_url"]').value;
-		var btn = form.querySelector('input[type="submit"]');
+		id = form.querySelector('input[name="id"]').value;
+		url = form.querySelector('input[name="audio_url"]').value;
+		btn = form.querySelector('input[type="submit"]');
 
-		var play_label = btn.value;
-		var pause_label = form.getAttribute('data-pause-label') || 'Playing...';
+		play_label = btn.value;
+		loading_label = form.getAttribute('data-loading-label') || 'Loading...';
+		pause_label = form.getAttribute('data-pause-label') || 'Pause';
 
-		var playing = false;
+		story = form.querySelector('.story');
+
 		var interval = null;
 
 		setup(form);
 		api_call('stats', {
 			id: id
 		}, setup_stats);
+		setup_story();
 
 		form.addEventListener('submit', function(e) {
-			playing = ! playing;
-			if (playing) {
-				play(id, url);
-				btn.value = pause_label;
-				interval = setInterval(function() {
-					track_playback(id, url);
-				}, 5000);
-			} else {
-				pause(id);
-				btn.value = play_label;
-				clearInterval(interval);
-			}
+			toggle();
 			e.preventDefault();
 			return false;
 		});

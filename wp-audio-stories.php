@@ -30,7 +30,7 @@ add_action('init', function() {
 	]);
 });
 
-add_action('wp_enqueue_scripts', function() {
+function audio_stories_enqueue_assets() {
 	$base_url = plugin_dir_url(__FILE__);
 	$sm2_version = AUDIO_STORIES_SM2_VERSION;
 	$sm2_src = "{$base_url}lib/soundmanager$sm2_version/script/soundmanager2.js";
@@ -38,10 +38,20 @@ add_action('wp_enqueue_scripts', function() {
 	wp_register_script('soundmanager2', $sm2_src, [], $sm2_version);
 	wp_register_script('audio_stories', $js_src, ['soundmanager2'], AUDIO_STORIES_VERSION);
 	wp_enqueue_script('audio_stories');
+}
+
+add_action('wp_enqueue_scripts', function() {
+	audio_stories_enqueue_assets();
 	wp_localize_script('audio_stories', 'audio_stories_api', array(
 		'root' => esc_url_raw(rest_url() . 'audio_stories/'),
 		'nonce' => wp_create_nonce('wp_rest')
 	));
+});
+
+add_action('admin_enqueue_scripts', function($suffix) {
+	if ($suffix == 'post.php') {
+		audio_stories_enqueue_assets();
+	}
 });
 
 function audio_stories_render($block) {
@@ -49,11 +59,28 @@ function audio_stories_render($block) {
 	$sm2_version = AUDIO_STORIES_SM2_VERSION;
 	$swf_url = "$base_url/lib/soundmanager$sm2_version/swf/";
 	?>
-	<form action="/wp-json/audio_stories/play" method="post" id="audio_stories_<?php the_field('id') ?>" data-pause-label="<?php the_field('pause_label'); ?>" data-swf-url="<?php echo $swf_url ?>">
+	<form action="/wp-json/audio_stories/play" method="post" id="audio_stories_<?php the_field('id') ?>" data-loading-label="<?php the_field('loading_label'); ?>" data-pause-label="<?php the_field('pause_label'); ?>" data-swf-url="<?php echo $swf_url ?>" class="audio-story">
 		<input type="hidden" name="id" value="<?php the_field('id'); ?>">
 		<input type="hidden" name="audio_url" value="<?php the_field('audio_url'); ?>">
 		<input type="submit" value="<?php the_field('play_label'); ?>">
 		<span class="stats_toggle"></span>
+		<div class="story hidden">
+			<div class="story__wrapper">
+				<div class="story__time"></div>
+				<div class="story__close">&times;</div>
+				<div class="story__content">
+					<div class="story__text"><?php the_field('text'); ?></div>
+					<div class="story__sequence"></div>
+				</div>
+			</div>
+			<div class="story__controls">
+				<div class="story__wrapper">
+					<div class="story__rewind">Rewind 10s</div>
+					<div class="story__play"><?php the_field('loading_label'); ?></div>
+					<div class="story__forward">Forward 10s</div>
+				</div>
+			</div>
+		</div>
 		<div class="stats_details"></div>
 	</form>
 	<script>audio_stories_init('audio_stories_<?php the_field('id'); ?>');</script>
