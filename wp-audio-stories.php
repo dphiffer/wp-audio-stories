@@ -24,17 +24,19 @@ add_action('init', function() {
 	if ($wp_version >= '5.8') {
 		register_block_type(__DIR__);
 	} else {
-		acf_register_block_type([
-			'name' => 'wp-audio-stories/audio-story',
-			'title' => 'Audio Story',
-			'category' => 'media',
-			'icon' => 'dashicons-media',
-			'description' => 'Audio synchronized with text and images',
-			'keywords' => [
-				'audio', 'stories'
-			],
-			'render_callback' => 'audio_stories_render'
-		]);
+		add_action('acf/init', function() {
+			acf_register_block_type([
+				'name' => 'wp-audio-stories/audio-story',
+				'title' => 'Audio Story',
+				'category' => 'media',
+				'icon' => 'dashicons-media',
+				'description' => 'Audio synchronized with text and images',
+				'keywords' => [
+					'audio', 'stories'
+				],
+				'render_callback' => 'audio_stories_render'
+			]);
+		});
 	}
 	register_post_type('audio_stories_play', array(
 		'public' => false,
