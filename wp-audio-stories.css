@@ -111,6 +111,7 @@ body.admin-bar .audio-story .story__sequence {
 }
 
 .audio-story .story__play {
+	font-weight: bold;
 	width: 50%;
 }
 
