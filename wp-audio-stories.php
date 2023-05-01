@@ -21,7 +21,7 @@ define('AUDIO_STORIES_SM2_VERSION', 'v297a-20170601');
 
 add_action('init', function() {
 	global $wp_version;
-	if ($wp_version >= '5.6') {
+	if ($wp_version >= '5.8') {
 		register_block_type(__DIR__);
 	} else {
 		acf_register_block_type([
