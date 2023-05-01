@@ -1,0 +1,15 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 2,
+    "name": "wp-audio-stories/audio-story",
+    "title": "Audio Story",
+    "category": "media",
+    "icon": "dashicons-media",
+    "description": "Audio synchronized with text and images",
+    "keywords": [ "audio", "stories" ],
+    "version": "0.0.1",
+    "textdomain": "wp-audio-stories",
+    "acf": {
+        "renderCallback": "audio_stories_render"
+    }
+}

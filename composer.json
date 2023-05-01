@@ -1,0 +1,29 @@
+{
+  "name": "dphiffer/wp-audio-stories",
+  "description": "Audio synchronized with text and images",
+  "version": "0.0.1",
+  "type": "wordpress-plugin",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://connect.advancedcustomfields.com"
+    }
+  ],
+  "require": {
+    "composer/installers": "*",
+    "wpengine/advanced-custom-fields-pro": "6.1.4"
+  },
+  "extra": {
+    "installer-paths": {
+      "../../plugins/{$name}/": [
+        "type:wordpress-plugin"
+      ]
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/installers": true
+    },
+    "process-timeout": 0
+  }
+}

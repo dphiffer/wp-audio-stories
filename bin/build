@@ -1,0 +1,40 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+echo "Setting up .env ..."
+cp .env.sample .env
+echo
+
+echo "What is your Advanced Custom Fields Pro key?"
+read -p "> " ACF_PRO_KEY
+echo >> .env
+echo "# This is for the ACF Pro installer plugin" >> .env
+echo "# See: https://www.advancedcustomfields.com/blog/composer-support-acf-pro/" >> .env
+echo "ACF_PRO_KEY=$ACF_PRO_KEY" >> .env
+echo
+
+echo "Building and then starting containers..."
+echo
+docker compose build
+docker compose up -d
+echo
+
+echo "Running composer install..."
+echo
+docker compose exec web composer --working-dir="/var/www/html/wp-content/plugins/wp-audio-stories" install
+echo
+
+#echo "Installing node.js dependencies and building front-end assets..."
+#echo
+#npm install
+#npm run build
+#echo
+
+echo "Shutting off containers..."
+echo
+docker compose stop
+echo
+echo "All done!"
