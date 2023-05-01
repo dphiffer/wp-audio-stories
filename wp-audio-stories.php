@@ -20,7 +20,22 @@ define('AUDIO_STORIES_SM2_VERSION', 'v297a-20170601');
 // define('AUDIO_STORIES_IPSTACK_KEY', 'XXXXXXXXXXXXXXXXXXXXXXXXX');
 
 add_action('init', function() {
-	register_block_type(__DIR__);
+	global $wp_version;
+	if ($wp_version >= '5.6') {
+		register_block_type(__DIR__);
+	} else {
+		register_block_type("wp-audio-stories/audio-story", [
+			'api_version' => 2,
+			'title' => 'Audio Story',
+			'category' => 'media',
+			'icon' => 'dashicons-media',
+			'description' => 'Audio synchronized with text and images',
+			'keywords' => [
+				'audio', 'stories'
+			],
+			'render_callback' => 'audio_stories_render'
+		]);
+	}
 	register_post_type('audio_stories_play', array(
 		'public' => false,
 		'taxonomies' => ['audio_stories_id']
@@ -32,12 +47,19 @@ add_action('init', function() {
 
 function audio_stories_enqueue_assets() {
 	$base_url = plugin_dir_url(__FILE__);
+	$base_path = __DIR__;
+
 	$sm2_version = AUDIO_STORIES_SM2_VERSION;
 	$sm2_src = "{$base_url}lib/soundmanager$sm2_version/script/soundmanager2.js";
-	$js_src = "{$base_url}wp-audio-stories.js";
 	wp_register_script('soundmanager2', $sm2_src, [], $sm2_version);
-	wp_register_script('audio_stories', $js_src, ['soundmanager2'], AUDIO_STORIES_VERSION);
-	wp_enqueue_script('audio_stories');
+
+	$js_version = filemtime("$base_path/wp-audio-stories.js");
+	$js_src = "{$base_url}wp-audio-stories.js";
+	wp_enqueue_script('audio_stories', $js_src, ['soundmanager2'], $js_version);
+
+	$css_src = "{$base_url}wp-audio-stories.css";
+	$css_version = filemtime("$base_path/wp-audio-stories.css");
+	wp_enqueue_style('audio_stories', $css_src, [], $css_version);
 }
 
 add_action('wp_enqueue_scripts', function() {
