@@ -91,6 +91,7 @@ var audio_stories_init = (function() {
 				whileplaying: function(position) {
 					btn.value = pause_label;
 					if (story_play) {
+						document.body.classList.add('story-open');
 						story.classList.remove('hidden');
 						story_play.innerHTML = pause_label;
 						story_play.classList.add('story__play--paused');
@@ -177,6 +178,7 @@ var audio_stories_init = (function() {
 			playing = true; // toggle() will reverse this
 			toggle();
 			story.classList.add('hidden');
+			document.body.classList.remove('story-open');
 		});
 
 		story_play.addEventListener('click', () => {
@@ -274,6 +276,11 @@ var audio_stories_init = (function() {
 		}, false);
 	}
 
+	function resize() {
+		let vh = document.documentElement.clientHeight / 100;
+		document.documentElement.style.setProperty('--vh', `${vh}px`);
+	}
+
 	return function init(form_id) {
 
 		form = document.getElementById(form_id);
@@ -302,5 +309,8 @@ var audio_stories_init = (function() {
 			e.preventDefault();
 			return false;
 		});
+
+		resize();
+		window.addEventListener('resize', resize);
 	}
 })();

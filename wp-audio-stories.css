@@ -1,5 +1,13 @@
+:root {
+	--window-height: 100vh;
+}
+
 html {
 	scroll-behavior: smooth;
+}
+
+body.story-open {
+	overflow: hidden;
 }
 
 .audio-story,
@@ -80,7 +88,7 @@ body.admin-bar .audio-story .story {
 .audio-story .story__sequence {
 	overflow: auto;
 	width: 100%;
-	height: calc(100vh - 68px);
+	height: calc(var(--window-height, 1vh) * 100 - 68px);
 	padding-top: 60px;
 }
 
