@@ -51,13 +51,22 @@ var audio_stories_init = (function() {
 				story_moments[i].classList.remove('hidden');
 			}
 		}
-		let curr_moment = story.querySelector('.story__moment--current');
-		if (curr_moment) {
-			curr_moment.classList.remove('story__moment--current');
+		var was_already_current = false;
+		if (current) {
+			was_already_current = current.classList.contains('story__moment--current');
 		}
-		if (current && ! current.classList.contains('story__moment--current')) {
+		if (! was_already_current) {
+			let curr_moment = story.querySelector('.story__moment--current');
+			if (curr_moment) {
+				curr_moment.classList.remove('story__moment--current');
+			}
+		}
+		if (current && ! was_already_current) {
 			current.classList.add('story__moment--current');
 			current.scrollIntoView(false);
+			if (current.classList.contains('story__moment--pause')) {
+				toggle();
+			}
 		}
 	}
 
@@ -206,17 +215,21 @@ var audio_stories_init = (function() {
 		var texts = story_text.split('\n');
 		for (let text of texts) {
 			text = text.trim();
-			let regex = /^\[(\d\d):(\d\d.\d\d\d)\]/;
+			let regex = /^\[(\d\d):(\d\d.\d\d\d)( pause)?\]/;
 			let timestamp = text.match(regex);
 			let time = '';
+			var pause = '';
 			if (timestamp) {
 				let min = parseInt(timestamp[1]);
 				let sec = parseFloat(timestamp[2]);
 				time = min * 60 + sec;
 				text = text.replace(regex, '');
 				sequence.push(time);
+				if (timestamp[3]) {
+					pause = ' story__moment--pause';
+				}
 			}
-			html += `<div class="story__moment hidden">${text}</div>`;
+			html += `<div class="story__moment hidden${pause}">${text}</div>`;
 		}
 		story_sequence.innerHTML = html;
 		story_moments = story_sequence.querySelectorAll('.story__moment');
