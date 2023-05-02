@@ -4,6 +4,7 @@ var audio_stories_init = (function() {
 	var sm2_is_setup = false;
 	var sm2_is_ready = false;
 	var play_when_ready = null;
+	var user_scrolled = false;
 	var form, id, url, btn;
 	var play_label, loading_label, pause_label;
 	var story, story_play, sequence, story_moments;
@@ -55,9 +56,9 @@ var audio_stories_init = (function() {
 		if (curr_moment) {
 			curr_moment.classList.remove('story__moment--current');
 		}
-		if (current) {
+		if (current && ! current.classList.contains('story__moment--current')) {
 			current.classList.add('story__moment--current');
-			if (current.scrollIntoView) {
+			if (! user_scrolled) {
 				current.scrollIntoView(false);
 			}
 		}
@@ -220,6 +221,14 @@ var audio_stories_init = (function() {
 		}
 		story_sequence.innerHTML = html;
 		story_moments = story_sequence.querySelectorAll('.story__moment');
+
+		story_sequence.addEventListener('scroll', () => {
+			if (story_sequence.scrollTop == story_sequence.scrollTopMax) {
+				user_scrolled = false;
+			} else {
+				user_scrolled = true;
+			}
+		});
 	}
 
 	function setup_stats(rsp) {

@@ -13,7 +13,7 @@ html {
 
 .audio-story .story {
 	color: #000;
-	background: #fff;
+	background: #ccc;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -37,6 +37,7 @@ body.admin-bar .audio-story .story {
 	width: 100%;
 	max-width: 640px;
 	margin: 0 auto;
+	background: #fff;
 }
 
 .audio-story .story__close {
@@ -115,7 +116,7 @@ body.admin-bar .audio-story .story__sequence {
 .audio-story .story__rewind,
 .audio-story .story__play,
 .audio-story .story__forward {
-	width: 33%;
+	width: 33.333%;
 	background: #ededed;
 	padding: 20px;
 	text-align: center;
@@ -172,5 +173,12 @@ body.admin-bar .audio-story .story__sequence {
 	.audio-story .story__play:hover,
 	.audio-story .story__forward:hover {
 		background: #ccc;
+	}
+
+	.audio-story .story__close:active,
+	.audio-story .story__rewind:active,
+	.audio-story .story__play:active,
+	.audio-story .story__forward:active {
+		background: #999;
 	}
 }
