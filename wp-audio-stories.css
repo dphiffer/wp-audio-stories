@@ -1,5 +1,5 @@
 :root {
-	--window-height: 100vh;
+	--vh: 1vh;
 }
 
 html {
@@ -88,17 +88,17 @@ body.admin-bar .audio-story .story {
 .audio-story .story__sequence {
 	overflow: auto;
 	width: 100%;
-	height: calc(var(--window-height, 1vh) * 100 - 68px);
+	height: calc(var(--vh, 1vh) * 100 - 68px);
 	padding-top: 60px;
 }
 
 body.admin-bar .audio-story .story__sequence {
-	height: calc(100vh - 100px);
+	height: calc(var(--vh, 1vh) * 100 - 100px);
 }
 
 @media screen and (max-width: 782px) {
 	body.admin-bar .audio-story .story__sequence {
-		height: calc(100vh - 114px);
+		height: calc(var(--vh, 1vh) * 100 - 114px);
 	}
 }
 
