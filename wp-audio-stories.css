@@ -17,6 +17,7 @@ body.story-open {
 
 .audio-story .story {
 	color: #000;
+	background: #fff;
 	position: fixed;
 	top: 0;
 	left: 0;
