@@ -17,7 +17,6 @@ body.story-open {
 
 .audio-story .story {
 	color: #000;
-	background: #ccc;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -99,6 +98,7 @@ body.admin-bar .audio-story .story__sequence {
 }
 
 .audio-story .story__moment {
+	opacity: 0;
 	color: #aaa;
 	font-size: 20px;
 	line-height: 24px;
@@ -114,15 +114,19 @@ body.admin-bar .audio-story .story__sequence {
 
 .audio-story .story__moment.hidden {
 	display: none;
-	opacity: 0;
+}
+
+.audio-story .story__moment.fadein {
+	opacity: 1;
 }
 
 .audio-story .story__rewind,
 .audio-story .story__play,
 .audio-story .story__forward {
+	font-size: 20px;
 	width: 33.333%;
 	background: #ededed;
-	padding: 20px;
+	padding: 15px;
 	text-align: center;
 	cursor: pointer;
 	transition: 0.2s background-color ease-out;
@@ -133,11 +137,27 @@ body.admin-bar .audio-story .story__sequence {
 .audio-story .story__forward::after {
 	display: inline-block;
 	font-family: "dashicons";
-	font-size: 20px;
+	font-size: 24px;
 	line-height: 1;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
-	transform: translateY(4px);
+	transform: translateY(5px);
+}
+
+@media screen and (max-width: 320px) {
+	.audio-story .story__rewind,
+	.audio-story .story__play,
+	.audio-story .story__forward {
+		font-size: 18px;
+		padding: 15px 10px;
+	}
+
+	.audio-story .story__rewind::before,
+	.audio-story .story__play::before,
+	.audio-story .story__forward::after {
+		font-size: 20px;
+		transform: translateY(4px);
+	}
 }
 
 .audio-story .story__rewind::before {

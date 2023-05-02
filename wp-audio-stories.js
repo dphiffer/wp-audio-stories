@@ -49,6 +49,9 @@ var audio_stories_init = (function() {
 			if (soundManager.sounds[id].position >= time) {
 				current = story_moments[i];
 				story_moments[i].classList.remove('hidden');
+				setTimeout(() => {
+					story_moments[i].classList.add('fadein');
+				}, 0);
 			}
 		}
 		var was_already_current = false;
@@ -99,7 +102,7 @@ var audio_stories_init = (function() {
 					if (story_play) {
 						document.body.classList.add('story-open');
 						story.classList.remove('hidden');
-						story_play.innerHTML = pause_label;
+						story_play.innerHTML = 'Pause';
 						story_play.classList.add('story__play--paused');
 						update_sequence();
 						update_time();
@@ -108,7 +111,7 @@ var audio_stories_init = (function() {
 				onpause: function() {
 					btn.value = play_label;
 					if (story_play) {
-						story_play.innerHTML = play_label;
+						story_play.innerHTML = 'Play';
 						story_play.classList.remove('story__play--paused');
 					}
 				}
@@ -282,7 +285,7 @@ var audio_stories_init = (function() {
 		var story_sequence = story.querySelector('.story__sequence');
 		var story_controls = story.querySelector('.story__controls');
 		var adminbar = document.getElementById('wpadminbar');
-		var height = window.innerHeight - 67;
+		var height = window.innerHeight - 63;
 		if (adminbar) {
 			height -= adminbar.offsetHeight;
 		}
