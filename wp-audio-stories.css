@@ -1,7 +1,3 @@
-:root {
-	--vh: 1vh;
-}
-
 html {
 	scroll-behavior: smooth;
 }
@@ -93,12 +89,12 @@ body.admin-bar .audio-story .story {
 }
 
 body.admin-bar .audio-story .story__sequence {
-	height: calc(var(--vh, 1vh) * 100 - 100px);
+	height: calc(100vh - 100px);
 }
 
 @media screen and (max-width: 782px) {
 	body.admin-bar .audio-story .story__sequence {
-		height: calc(var(--vh, 1vh) * 100 - 114px);
+		height: calc(100vh - 114px);
 	}
 }
 

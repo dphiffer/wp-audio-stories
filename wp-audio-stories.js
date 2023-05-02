@@ -4,7 +4,6 @@ var audio_stories_init = (function() {
 	var sm2_is_setup = false;
 	var sm2_is_ready = false;
 	var play_when_ready = null;
-	var user_scrolled = false;
 	var form, id, url, btn;
 	var play_label, loading_label, pause_label;
 	var story, story_play, sequence, story_moments;
@@ -58,9 +57,7 @@ var audio_stories_init = (function() {
 		}
 		if (current && ! current.classList.contains('story__moment--current')) {
 			current.classList.add('story__moment--current');
-			if (! user_scrolled) {
-				current.scrollIntoView(false);
-			}
+			current.scrollIntoView(false);
 		}
 	}
 
@@ -223,14 +220,6 @@ var audio_stories_init = (function() {
 		}
 		story_sequence.innerHTML = html;
 		story_moments = story_sequence.querySelectorAll('.story__moment');
-
-		story_sequence.addEventListener('scroll', () => {
-			if (story_sequence.scrollTop == story_sequence.scrollTopMax) {
-				user_scrolled = false;
-			} else {
-				user_scrolled = true;
-			}
-		});
 	}
 
 	function setup_stats(rsp) {
@@ -277,8 +266,14 @@ var audio_stories_init = (function() {
 	}
 
 	function resize() {
-		let vh = document.documentElement.clientHeight / 100;
-		document.documentElement.style.setProperty('--vh', `${vh}px`);
+		var story_sequence = story.querySelector('.story__sequence');
+		var story_controls = story.querySelector('.story__controls');
+		var adminbar = document.getElementById('wpadminbar');
+		var height = window.innerHeight - 67;
+		if (adminbar) {
+			height -= adminbar.offsetHeight;
+		}
+		story_sequence.style.height = height + 'px';
 	}
 
 	return function init(form_id) {
