@@ -197,11 +197,23 @@ var audio_stories_init = (function() {
 		story_rewind.addEventListener('click', () => {
 			var sound = soundManager.sounds[id];
 			sound.setPosition(Math.max(0, sound.position -= 10 * 1000));
+			if (! playing) {
+				setTimeout(() => {
+					story_play.innerHTML = 'Play';
+					story_play.classList.remove('story__play--paused');
+				}, 100);
+			}
 		});
 
 		story_forward.addEventListener('click', () => {
 			var sound = soundManager.sounds[id];
 			sound.setPosition(sound.position += 10 * 1000);
+			if (! playing) {
+				setTimeout(() => {
+					story_play.innerHTML = 'Play';
+					story_play.classList.remove('story__play--paused');
+				}, 100);
+			}
 		});
 
 		for (let el of [story_close, story_rewind, story_play, story_forward]) {
