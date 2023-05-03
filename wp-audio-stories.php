@@ -34,6 +34,7 @@ add_action('init', function() {
 });
 
 add_action('acf/init', function() {
+	global $wp_version;
 	if ($wp_version < '5.8') {
 		acf_register_block_type([
 			'name' => 'audio-story',
