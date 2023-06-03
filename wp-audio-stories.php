@@ -96,7 +96,15 @@ function audio_stories_render($block) {
 				<div class="story__time"></div>
 				<div class="story__close">&times;</div>
 				<div class="story__content">
-					<div class="story__text"><?php the_field('text'); ?></div>
+					<div class="story__text"><?php
+
+					$moments = get_field('moments');
+					foreach ($moments as $moment) {
+						$pause = empty($moment['pause']) ? '' : ' pause';
+						echo "[{$moment['timestamp']}$pause] {$moment['message']}\r\n";
+					}
+
+					?></div>
 					<div class="story__sequence"></div>
 				</div>
 			</div>

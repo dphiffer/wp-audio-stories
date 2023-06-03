@@ -4,7 +4,7 @@
     "name": "acf/audio-story",
     "title": "Audio Story",
     "category": "media",
-    "icon": "dashicons-media",
+    "icon": "playlist-audio",
     "description": "Audio synchronized with text and images",
     "keywords": [ "audio", "stories" ],
     "version": "0.0.2",
