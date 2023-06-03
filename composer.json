@@ -11,7 +11,7 @@
   ],
   "require": {
     "composer/installers": "*",
-    "wpengine/advanced-custom-fields-pro": "6.1.4"
+    "wpengine/advanced-custom-fields-pro": "6.1.6"
   },
   "extra": {
     "installer-paths": {
