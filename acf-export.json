@@ -87,27 +87,6 @@
                         "parent_repeater": "field_647b8af53baaa"
                     },
                     {
-                        "key": "field_647b8b343baac",
-                        "label": "Pause",
-                        "name": "pause",
-                        "aria-label": "",
-                        "type": "true_false",
-                        "instructions": "Pauses the audio at this timestamp.",
-                        "required": 0,
-                        "conditional_logic": 0,
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "message": "",
-                        "default_value": 0,
-                        "ui_on_text": "",
-                        "ui_off_text": "",
-                        "ui": 1,
-                        "parent_repeater": "field_647b8af53baaa"
-                    },
-                    {
                         "key": "field_647b8b643baad",
                         "label": "Message",
                         "name": "message",
@@ -126,6 +105,27 @@
                         "rows": 2,
                         "placeholder": "",
                         "new_lines": "",
+                        "parent_repeater": "field_647b8af53baaa"
+                    },
+                    {
+                        "key": "field_647b8b343baac",
+                        "label": "Pause",
+                        "name": "pause",
+                        "aria-label": "",
+                        "type": "true_false",
+                        "instructions": "Pauses the audio at this timestamp.",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "message": "",
+                        "default_value": 0,
+                        "ui_on_text": "",
+                        "ui_off_text": "",
+                        "ui": 1,
                         "parent_repeater": "field_647b8af53baaa"
                     }
                 ]
