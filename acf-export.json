@@ -4,29 +4,9 @@
         "title": "Audio Story Block",
         "fields": [
             {
-                "key": "field_644d6a8468842",
-                "label": "ID",
-                "name": "id",
-                "aria-label": "",
-                "type": "text",
-                "instructions": "Used for tracking purposes. Use lowercase letters, numbers, and hyphens.",
-                "required": 1,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "default_value": "",
-                "maxlength": "",
-                "placeholder": "",
-                "prepend": "",
-                "append": ""
-            },
-            {
                 "key": "field_644d728184bfc",
                 "label": "Audio",
-                "name": "audio_url",
+                "name": "audio_file",
                 "aria-label": "",
                 "type": "file",
                 "instructions": "",
@@ -37,7 +17,7 @@
                     "class": "",
                     "id": ""
                 },
-                "return_format": "url",
+                "return_format": "array",
                 "library": "all",
                 "min_size": "",
                 "max_size": "",
@@ -62,12 +42,12 @@
                 "min": 0,
                 "max": 0,
                 "collapsed": "",
-                "button_label": "Add Row",
+                "button_label": "Add Moment",
                 "rows_per_page": 20,
                 "sub_fields": [
                     {
                         "key": "field_647b8b143baab",
-                        "label": "Timestamp",
+                        "label": "Timestamp (MM:SS)",
                         "name": "timestamp",
                         "aria-label": "",
                         "type": "text",
@@ -79,7 +59,7 @@
                             "class": "",
                             "id": ""
                         },
-                        "default_value": "00:00.000",
+                        "default_value": "00:00",
                         "maxlength": "",
                         "placeholder": "",
                         "prepend": "",
@@ -109,11 +89,11 @@
                     },
                     {
                         "key": "field_647b8b343baac",
-                        "label": "Pause",
+                        "label": "Pause the audio",
                         "name": "pause",
                         "aria-label": "",
                         "type": "true_false",
-                        "instructions": "Pauses the audio at this timestamp.",
+                        "instructions": "",
                         "required": 0,
                         "conditional_logic": 0,
                         "wrapper": {
@@ -132,8 +112,8 @@
             },
             {
                 "key": "field_644d8b87dce23",
-                "label": "Play Label",
-                "name": "play_label",
+                "label": "Button Label",
+                "name": "button_label",
                 "aria-label": "",
                 "type": "text",
                 "instructions": "",
@@ -145,46 +125,6 @@
                     "id": ""
                 },
                 "default_value": "Start",
-                "maxlength": "",
-                "placeholder": "",
-                "prepend": "",
-                "append": ""
-            },
-            {
-                "key": "field_644f63b75a864",
-                "label": "Loading Label",
-                "name": "loading_label",
-                "aria-label": "",
-                "type": "text",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "default_value": "Loading...",
-                "maxlength": "",
-                "placeholder": "",
-                "prepend": "",
-                "append": ""
-            },
-            {
-                "key": "field_644d8bd3dce24",
-                "label": "Pause Label",
-                "name": "pause_label",
-                "aria-label": "",
-                "type": "text",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "default_value": "Pause",
                 "maxlength": "",
                 "placeholder": "",
                 "prepend": "",

@@ -85,11 +85,17 @@ function audio_stories_render($block) {
 	$base_url = plugin_dir_url(__FILE__);
 	$sm2_version = AUDIO_STORIES_SM2_VERSION;
 	$swf_url = "$base_url/lib/soundmanager$sm2_version/swf/";
+	$audio_file = get_field('audio_file');
+	if (empty($audio_file)) {
+		echo '<code>Audio story: no audio file selected.</code>';
+		return;
+	}
+	$id = "audio-story-{$audio_file['id']}";
 	?>
-	<form action="/wp-json/audio_stories/play" method="post" id="audio_stories_<?php the_field('id') ?>" data-loading-label="<?php the_field('loading_label'); ?>" data-pause-label="<?php the_field('pause_label'); ?>" data-swf-url="<?php echo $swf_url ?>" class="audio-story">
-		<input type="hidden" name="id" value="<?php the_field('id'); ?>">
-		<input type="hidden" name="audio_url" value="<?php the_field('audio_url'); ?>">
-		<input type="submit" value="<?php the_field('play_label'); ?>">
+	<form action="/wp-json/audio_stories/play" method="post" id="<?php echo esc_attr($id); ?>" data-swf-url="<?php echo $swf_url ?>" class="audio-story">
+		<input type="hidden" name="id" value="<?php echo esc_attr($id); ?>">
+		<input type="hidden" name="audio_url" value="<?php echo esc_attr($audio_file['url']); ?>">
+		<input type="submit" value="<?php the_field('button_label'); ?>">
 		<span class="stats_toggle"></span>
 		<div class="story hidden">
 			<div class="story__wrapper">
@@ -99,9 +105,11 @@ function audio_stories_render($block) {
 					<div class="story__text"><?php
 
 					$moments = get_field('moments');
-					foreach ($moments as $moment) {
-						$pause = empty($moment['pause']) ? '' : ' pause';
-						echo "[{$moment['timestamp']}$pause] {$moment['message']}\r\n";
+					if (! empty($moments)) {
+						foreach ($moments as $moment) {
+							$pause = empty($moment['pause']) ? '' : ' pause';
+							echo "[{$moment['timestamp']}$pause] {$moment['message']}\r\n";
+						}
 					}
 
 					?></div>
@@ -111,14 +119,14 @@ function audio_stories_render($block) {
 			<div class="story__controls">
 				<div class="story__wrapper">
 					<div class="story__rewind">10 sec</div>
-					<div class="story__play"><?php the_field('loading_label'); ?></div>
+					<div class="story__play">Loading...</div>
 					<div class="story__forward">10 sec</div>
 				</div>
 			</div>
 		</div>
 		<div class="stats_details"></div>
 	</form>
-	<script>audio_stories_init('audio_stories_<?php the_field('id'); ?>');</script>
+	<script>audio_stories_init('<?php echo $id; ?>');</script>
 <?php
 }
 

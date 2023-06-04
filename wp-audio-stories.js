@@ -230,14 +230,14 @@ var audio_stories_init = (function() {
 		var texts = story_text.split('\n');
 		for (let text of texts) {
 			text = text.trim();
-			let regex = /^\[(\d\d):(\d\d.\d\d\d)( pause)?\]/;
+			let regex = /^\[(\d\d):(\d\d)( pause)?\]/;
 			let timestamp = text.match(regex);
 			let time = '';
 			var pause = '';
 			if (timestamp) {
-				let min = parseInt(timestamp[1]);
-				let sec = parseFloat(timestamp[2]);
-				time = min * 60 + sec;
+				let mm = parseInt(timestamp[1]);
+				let ss = parseFloat(timestamp[2]);
+				time = mm * 60 + ss;
 				text = text.replace(regex, '');
 				sequence.push(time);
 				if (timestamp[3]) {
@@ -255,7 +255,7 @@ var audio_stories_init = (function() {
 			return;
 		}
 
-		var form = document.querySelector('#audio_stories_' + rsp.id);
+		var form = document.getElementById(rsp.id);
 		var stats_toggle = form.querySelector('.stats_toggle');
 		var stats_details = form.querySelector('.stats_details');
 
@@ -314,8 +314,8 @@ var audio_stories_init = (function() {
 		btn = form.querySelector('input[type="submit"]');
 
 		play_label = btn.value;
-		loading_label = form.getAttribute('data-loading-label') || 'Loading...';
-		pause_label = form.getAttribute('data-pause-label') || 'Pause';
+		loading_label = 'Loading...';
+		pause_label = 'Pause';
 
 		story = form.querySelector('.story');
 
