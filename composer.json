@@ -1,7 +1,7 @@
 {
   "name": "dphiffer/wp-audio-stories",
-  "description": "Audio synchronized with text and images",
-  "version": "0.0.1",
+  "description": "Audio synchronized with text",
+  "version": "0.0.2",
   "type": "wordpress-plugin",
   "repositories": [
     {

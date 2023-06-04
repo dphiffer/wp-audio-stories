@@ -5,7 +5,8 @@ RUN apt-get update && apt-get install -y \
 	less \
 	mariadb-client \
 	subversion \
-	unzip;
+	unzip \
+	emacs-nox;
 
 # Setup WP-CLI
 # See: https://wp-cli.org/
@@ -28,3 +29,7 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"; \
 	php -r "unlink('composer-setup.php');"; \
 	mv composer.phar /usr/local/bin/composer; \
 	chmod +x /usr/local/bin/composer
+
+# Configure PHP to accept more than 2MB of file uploads
+RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini; \
+    sed -i.bak -e '/^ *post_max_size/s/=.*/= 2048M/' -e '/^ *upload_max_filesize/s/=.*/= 2048M/' php.ini

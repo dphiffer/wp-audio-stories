@@ -7,7 +7,7 @@
  * Description:       Audio synchronized with text and images
  * Requires at least: 4.5
  * Requires PHP:      7.0
- * Version:           0.0.1
+ * Version:           0.0.2
  * Author:            Dan Phiffer
  * Author URI:        https://phiffer.org/
  * License:           GPL-2.0-or-later
@@ -15,7 +15,7 @@
  * Text Domain:       audio-stories
  */
 
-define('AUDIO_STORIES_VERSION', '0.0.1');
+define('AUDIO_STORIES_VERSION', '0.0.2');
 define('AUDIO_STORIES_SM2_VERSION', 'v297a-20170601');
 // define('AUDIO_STORIES_IPSTACK_KEY', 'XXXXXXXXXXXXXXXXXXXXXXXXX');
 
@@ -90,7 +90,11 @@ function audio_stories_render($block) {
 		echo '<code>Audio story: no audio file selected.</code>';
 		return;
 	}
-	$id = "audio-story-{$audio_file['id']}";
+	// Legacy ID support
+	$id = get_field('id');
+	if (empty($id)) {
+		$id = "audio-story-{$audio_file['id']}";
+	}
 	?>
 	<form action="/wp-json/audio_stories/play" method="post" id="<?php echo esc_attr($id); ?>" data-swf-url="<?php echo $swf_url ?>" class="audio-story">
 		<input type="hidden" name="id" value="<?php echo esc_attr($id); ?>">

@@ -1,7 +1,7 @@
 # wp-audio-stories
 
 __Audio Stories WordPress plugin__  
-*Audio synchronized with text and images*
+*Audio synchronized with text*
 
 ## Dependencies
 

@@ -5,7 +5,7 @@
     "title": "Audio Story",
     "category": "media",
     "icon": "playlist-audio",
-    "description": "Audio synchronized with text and images",
+    "description": "Audio synchronized with text",
     "keywords": [ "audio", "stories" ],
     "version": "0.0.2",
     "acf": {
